@@ -12,6 +12,21 @@ import RPi.GPIO as GPIO
 import os
 from lib.bme280 import *
 
+# Setup database
+import sqlite3
+import MySQLdb
+
+db = MySQLdb.connect(host="localhost",  # your host 
+                     user="root",       # username
+                     passwd="raspberry",     # password
+                     db="loggerdata")   # name of the database
+
+# Create a Cursor object to execute queries.
+cur = db.cursor()
+
+sqlite_file = 'loggerdata.sqlite'
+table_name = 'loggerdata'
+
 # LED
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -23,32 +38,27 @@ axes = adxl345.getAxes(True)
 
 #sensor = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
 
-time_prev = time.perf_counter()
+#time_prev = time.perf_counter()
 runningnumber = 0
 filenumber = 0
 prefcycle = 0
 old_millis = 0
-
-# options for files
-filenamebase = "loggerdata"
-subfoldername = "loggerdata"
-filebreak = 10000
 
 #for LED
 light = 0
 
 cycletime = 5
 
-if not os.path.exists(subfoldername):
-    os.makedirs(subfoldername)
-    print ("folder created")
-
 #for x in range (0,100):
 print ("Logging started ", datetime.datetime.now())
 
+#connect to db
+#conn = sqlite3.connect(sqlite_file)
+#c = conn.cursor()
+
 # loop forever
 while True:
-    begintime = time.perf_counter()
+    #begintime = time.perf_counter()
 
     # fetch sensor values to write
     now = datetime.datetime.now()
@@ -67,19 +77,16 @@ while True:
                 "\n"]
     content = ''.join(con_list)
 
-    # create the file name
-    if (runningnumber % filebreak == 0):
-        filenumber = filenumber + 1
-        filedate = now.strftime("%Y-%m-%d")
-        filename_list = [subfoldername , "/" , filenamebase , "_" , filedate , "_" , str(filenumber) , ".csv"]
-        filename = ''.join(filename_list)
+    # write to database
+    conn = sqlite3.connect(sqlite_file)
+    c = conn.cursor()
 
-    # write to file + flash LED
-    #GPIO.output(18,GPIO.HIGH)
-    file = open(filename, "a+")
-    file.write(content)
-    file.close()
-    #GPIO.output(18,GPIO.LOW)
+    c.execute("INSERT OR IGNORE INTO {tn} \
+           (counter, timestamp, date, time, cap, x, y, z) \
+            VALUES ({cou}, {timst}, '{dat}', '{tim}', {cap}, {x}, {y}, {z})".\
+            format(tn=table_name, cou=runningnumber, timst=curr_millis, dat=now.strftime("%Y/%m/%d"), tim=now.strftime("%H:%M:%S"), cap=capsensor, x=axes['x'], y=axes['y'], z=axes['z']))
+    conn.commit()
+    conn.close()
 
     #flash LED
     if (runningnumber % 50 == 0):
