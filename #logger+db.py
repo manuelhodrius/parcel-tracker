@@ -43,9 +43,9 @@ cycletime = 5
 print ("Logging started ", datetime.datetime.now())
 
 #connect to db
-#conn = sqlite3.connect(sqlite_file)
-#c = conn.cursor()
-
+conn = sqlite3.connect(sqlite_file)
+c = conn.cursor()
+#c.execute("PRAGMA synchronous = OFF")
 
 # loop forever
 while True:
@@ -69,15 +69,15 @@ while True:
     content = ''.join(con_list)
 
     # write to database
-    conn = sqlite3.connect(sqlite_file)
-    c = conn.cursor()
+#    conn = sqlite3.connect(sqlite_file)
+#    c = conn.cursor()
 
     c.execute("INSERT OR IGNORE INTO {tn} \
            (counter, timestamp, date, time, cap, x, y, z) \
             VALUES ({cou}, {timst}, '{dat}', '{tim}', {cap}, {x}, {y}, {z})".\
             format(tn=table_name, cou=runningnumber, timst=curr_millis, dat=now.strftime("%Y/%m/%d"), tim=now.strftime("%H:%M:%S"), cap=capsensor, x=axes['x'], y=axes['y'], z=axes['z']))
     conn.commit()
-    conn.close()
+#    conn.close()
 
     #flash LED
     if (runningnumber % 50 == 0):
