@@ -24,8 +24,8 @@ import os
 import psutil
 
 import Adafruit_GPIO.SPI as SPI
-import SSD1306
-Adafruit_SSD1306 = SSD1306
+import lib.SSD1306
+Adafruit_SSD1306 = lib.SSD1306
 
 import time
 import datetime
@@ -33,6 +33,8 @@ import datetime
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+
+#import image
 
 import subprocess
 
@@ -77,7 +79,7 @@ x = 0
 
 # Load default font.
 #font = ImageFont.load_default()
-font = ImageFont.truetype(font="/usr/share/fonts/truetype/noto/NotoMono-Regular.ttf", size=10, index=0, encoding='')
+font = ImageFont.truetype(font="/home/pi/parcel-tracker/res/NotoMono-Regular.ttf", size=10, index=0, encoding='')
 
 # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
 # Some other nice fonts to try: http://www.dafont.com/bitmap.php
