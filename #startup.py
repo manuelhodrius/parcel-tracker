@@ -6,3 +6,6 @@ subprocess.Popen(["python3", '#logger.py'])
 sleep(y)
 subprocess.Popen(["python", '#display.py'])
 sleep (y)
+subprocess.Popen(["python", '#climate.py'])
+sleep (y)
+
