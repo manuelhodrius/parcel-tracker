@@ -60,7 +60,7 @@ while True:
     capsensor = 0
 
     # activate if there is movement
-    axsum = axes[0] + axes[1] + axes[2]
+    axsum = axes['x'] + axes['y'] + axes['z']
     if (abs(axsum - axsum_old) > axthres):
         
         # update time to measure cycle time
