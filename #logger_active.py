@@ -62,59 +62,43 @@ while True:
     # activate if there is movement
     axsum = axes[0] + axes[1] + axes[2]
     if (abs(axsum - axsum_old) > axthres):
-
+        
         # update time to measure cycle time
-    	curr_millis = round((time.perf_counter()*1000),4)
+        curr_millis = round((time.perf_counter()*1000),4)
 
-    	# creat list with values as strings
-    	con_list = [str(runningnumber) , "," , str(curr_millis) , "," ,
-                now.strftime("%Y/%m/%d,%H:%M:%S") , "," ,
-                str(capsensor) , "," ,
-                str(axes['x']) , "," , str(axes['y']) , "," , str(axes['z']) , "," ,
-                #str(round(sensor.read_temperature(),2)) ,  "," , str(round((sensor.read_pressure()/100),2)) ,  "," , str(round(sensor.read_humidity(),2)) ,
-                "\n"]
-    	content = ''.join(con_list)
+        # creat list with values as strings
+        con_list = [str(runningnumber) , "," , str(curr_millis) , "," ,
+            now.strftime("%Y/%m/%d,%H:%M:%S") , "," ,
+            str(capsensor) , "," ,
+            str(axes['x']) , "," , str(axes['y']) , "," , str(axes['z']) , "," ,
+            #str(round(sensor.read_temperature(),2)) ,  "," , str(round((sensor.read_pressure()/100),2)) ,  "," , str(round(sensor.read_humidity(),2)) ,
+            "\n"]
+        content = ''.join(con_list)
 
-    	# create the file name
-    	if (runningnumber % filebreak == 0):
-    	    filenumber = filenumber + 1
-    	    filedate = now.strftime("%Y-%m-%d")
-    	    filename_list = [subfoldername , "/" , filenamebase , "_" , filedate , "_" , str(filenumber) , ".csv"]
-    	    filename = ''.join(filename_list)
+        # create the file name
+        if (runningnumber % filebreak == 0):
+            filenumber = filenumber + 1
+            filedate = now.strftime("%Y-%m-%d")
+            filename_list = [subfoldername , "/" , filenamebase , "_" , filedate , "_" , str(filenumber) , ".csv"]
+            filename = ''.join(filename_list)
 
-    	# write to file + flash LED
-    	#GPIO.output(18,GPIO.HIGH)
-    	file = open(filename, "a+")
-    	file.write(content)
-    	file.close()
-    	#GPIO.output(18,GPIO.LOW)
+        # write to file + flash LED
+        #GPIO.output(18,GPIO.HIGH)
+        file = open(filename, "a+")
+        file.write(content)
+        file.close()
+        #GPIO.output(18,GPIO.LOW)
 
-    	#flash LED
-    	if (runningnumber % 50 == 0):
-    	    if (light == 1):
-    	        light = 0
-    	        GPIO.output(18,GPIO.LOW)
-    	    else:
-    	        light = 1
-    	        GPIO.output(18,GPIO.HIGH)
+        #flash LED
+        if (runningnumber % 50 == 0):
+            if (light == 1):
+                light = 0
+                GPIO.output(18,GPIO.LOW)
+            else:
+                light = 1
+                GPIO.output(18,GPIO.HIGH)
         runningnumber = runningnumber + 1
         axsum_old = axsum
-
-    # console log activity <-- deactivate for lower cycle times!
-    #print(content)
-    #if (runningnumber % 100 == 0):
-        #print (runningnumber)
-
-    # intelligent wait
-    """endtime = time.perf_counter()
-    duration = endtime - begintime
-    sleeptime = (cycletime/1000) - duration
-    if (sleeptime > 0):
-        #print(sleeptime/1000)
-        time.sleep(sleeptime)
-    old_millis = curr_millis"""
-
-    # increase running number
-#    	runningnumber = runningnumber + 1
-#	axsum_old = axsum
+    else:
+        continue
 
