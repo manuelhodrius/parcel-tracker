@@ -18,7 +18,7 @@ delay = 10
 
 # options for files
 filenamebase = "climatedata"
-subfoldername = "loggerdata"
+subfoldername = "climatedata"
 filebreak = 10000
 
 if not os.path.exists(subfoldername):
