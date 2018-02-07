@@ -48,7 +48,7 @@ print ("Logging started ", datetime.datetime.now())
 
 axsum_old = 1000
 
-axthres = 0.2
+axthres = 0.1
 
 # loop forever
 while True:
