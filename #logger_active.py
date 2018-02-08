@@ -48,7 +48,8 @@ print ("Logging started ", datetime.datetime.now())
 
 axsum_old = 1000
 
-axthres = 0.1
+axthres = 0.2
+dropthres = 0.4
 
 # loop forever
 while True:
@@ -61,16 +62,19 @@ while True:
 
     # activate if there is movement
     axsum = axes['x'] + axes['y'] + axes['z']
-    if (abs(axsum - axsum_old) > axthres):
-        
+    if ((abs(axsum - axsum_old) > axthres) or (axsum < dropthres)):
+
         # update time to measure cycle time
         curr_millis = round((time.perf_counter()*1000),4)
+
+        # Calculate vector magnitude
+        vectormag = sqrt(pow(axes['x'],2) + pow(axes['y'],2) + pow(axes['z'],2))
 
         # creat list with values as strings
         con_list = [str(runningnumber) , "," , str(curr_millis) , "," ,
             now.strftime("%Y/%m/%d,%H:%M:%S") , "," ,
             str(capsensor) , "," ,
-            str(axes['x']) , "," , str(axes['y']) , "," , str(axes['z']) , "," ,
+            str(axes['x']) , "," , str(axes['y']) , "," , str(axes['z']) , "," , str(vectormag), "," , 
             #str(round(sensor.read_temperature(),2)) ,  "," , str(round((sensor.read_pressure()/100),2)) ,  "," , str(round(sensor.read_humidity(),2)) ,
             "\n"]
         content = ''.join(con_list)

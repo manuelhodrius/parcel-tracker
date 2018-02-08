@@ -79,7 +79,7 @@ x = 0
 
 # Load default font.
 #font = ImageFont.load_default()
-font = ImageFont.truetype(font="/home/pi/parcel-tracker/res/NotoMono-Regular.ttf", size=10, index=0, encoding='')
+font = ImageFont.truetype(font="/home/pi/shipping-logger/res/NotoMono-Regular.ttf", size=10, index=0, encoding='')
 
 # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
 # Some other nice fonts to try: http://www.dafont.com/bitmap.php
@@ -108,7 +108,7 @@ while True:
     cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
     cpu = "CPU " + str(psutil.cpu_percent()) + "%"
     mem = "MEM " + str(psutil.virtual_memory().used/1000000) + " MB / " + str(psutil.virtual_memory().percent) + " %"
-    logtime = "RUNTIME " + str(datetime.datetime.now()-start_time)[:-7]
+    logtime = str(datetime.datetime.now()-start_time)[:-7]
 
     # Write two lines of text.
     
