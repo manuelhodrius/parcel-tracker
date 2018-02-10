@@ -47,10 +47,11 @@ if not os.path.exists(subfoldername):
 #for x in range (0,100):
 print ("Logging started ", datetime.datetime.now())
 
-axsum_old = 1000
+vectormag_old = 1000
 
 axthres = 0.2
 dropthres = 0.4
+abuse = 3
 
 # loop forever
 while True:
@@ -62,14 +63,17 @@ while True:
     capsensor = 0
 
     # activate if there is movement
-    axsum = axes['x'] + axes['y'] + axes['z']
-    if ((abs(axsum - axsum_old) > axthres) or (axsum < dropthres)):
+    #axsum = axes['x'] + axes['y'] + axes['z']
+
+    # Calculate vector magnitude
+    vectormag = math.sqrt(pow(axes['x'],2) + pow(axes['y'],2) + pow(axes['z'],2))
+    if ((abs(vectormag - vectormag_old) > axthres) or (vectormag < dropthres) or (vectormag > abuse)):
 
         # update time to measure cycle time
         curr_millis = round((time.perf_counter()*1000),4)
 
         # Calculate vector magnitude
-        vectormag = math.sqrt(pow(axes['x'],2) + pow(axes['y'],2) + pow(axes['z'],2))
+        # vectormag = math.sqrt(pow(axes['x'],2) + pow(axes['y'],2) + pow(axes['z'],2))
 
         # creat list with values as strings
         con_list = [str(runningnumber) , "," , str(curr_millis) , "," ,
@@ -103,7 +107,7 @@ while True:
                 light = 1
                 GPIO.output(18,GPIO.HIGH)
         runningnumber = runningnumber + 1
-        axsum_old = axsum
+        vectormag_old = vectormag
     else:
         continue
 
