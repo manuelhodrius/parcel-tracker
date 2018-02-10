@@ -11,6 +11,7 @@ import datetime
 import RPi.GPIO as GPIO
 import os
 from lib.bme280 import *
+import math
 
 # LED
 GPIO.setmode(GPIO.BCM)
@@ -68,7 +69,7 @@ while True:
         curr_millis = round((time.perf_counter()*1000),4)
 
         # Calculate vector magnitude
-        vectormag = sqrt(pow(axes['x'],2) + pow(axes['y'],2) + pow(axes['z'],2))
+        vectormag = math.sqrt(pow(axes['x'],2) + pow(axes['y'],2) + pow(axes['z'],2))
 
         # creat list with values as strings
         con_list = [str(runningnumber) , "," , str(curr_millis) , "," ,
