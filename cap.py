@@ -48,8 +48,10 @@ def CapRead(inPin,outPin,cycles=1,avg=500):
     # clean before you leave
     GPIO.cleanup()
 
+'''
 # loop
 while True:
     cyc = CapRead(18,17);
     print (cyc)
     #time.sleep(100/1000)
+'''
