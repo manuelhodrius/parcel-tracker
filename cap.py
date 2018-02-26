@@ -31,7 +31,7 @@ def CapRead(inPin,outPin,cycles=1,avg=500):
             GPIO.output(outPin, GPIO.HIGH)
 
             #while( GPIO.input(inPin) == GPIO.LOW and total < timeout ):
-            while( GPIO.input(inPin) != GPIO.HIGH ):
+            while( GPIO.input(inPin) != GPIO.HIGH and sum < timeout):
                 sum = sum + 1
 
             # set receive pin HIGH briefly to charge up fully - because the while loop above will exit when pin is ~ 2.5V
@@ -48,10 +48,8 @@ def CapRead(inPin,outPin,cycles=1,avg=500):
     # clean before you leave
     GPIO.cleanup()
 
-'''
 # loop
 while True:
-    cyc = CapRead(18,17);
+    cyc = CapRead(18,17,1,1);
     print (cyc)
     #time.sleep(100/1000)
-'''
