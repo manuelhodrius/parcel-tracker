@@ -32,7 +32,7 @@ for f in files:
     while os.path.exists((source + new_folder + "/" + root + ext)):
         #print("rename")
         org = source + root + ext
-        root = root + "_o"
+        root = "o_" + root
         new = source + root + ext
         os.rename(org, new)
 
