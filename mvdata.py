@@ -8,7 +8,7 @@ path = pathbase + "/" + subfoldername
 
 # new folder name
 #foldername_new = "o_" + subfoldername
-#path_new = "/" + foldername_new
+path_new = pathbase + "/" + "o_" + foldername_new
 
 if os.path.exists(path):
     # see if it already exists and rename the new folder
