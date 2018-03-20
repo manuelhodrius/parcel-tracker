@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from variables import subfoldername, folderpath
+from variables import subfoldername, pathbase
 
 # set source and destination paths
 path = pathbase + "/" + subfoldername
