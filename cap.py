@@ -3,7 +3,7 @@
 import RPi.GPIO as GPIO
 import time
 
-timeout = 10000
+timeout = 100000
 DEBUG = 1
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -30,8 +30,8 @@ def CapRead(inPin,outPin,cycles=1,avg=500):
             # set send Pin High
             GPIO.output(outPin, GPIO.HIGH)
 
-            #while( GPIO.input(inPin) == GPIO.LOW and total < timeout ):
-            while( GPIO.input(inPin) != GPIO.HIGH and sum < timeout):
+            while( GPIO.input(inPin) == GPIO.LOW and sum < timeout ):
+            #while( GPIO.input(inPin) != GPIO.HIGH and sum < timeout):
                 sum = sum + 1
 
             # set receive pin HIGH briefly to charge up fully - because the while loop above will exit when pin is ~ 2.5V
@@ -50,6 +50,6 @@ def CapRead(inPin,outPin,cycles=1,avg=500):
 
 # loop
 while True:
-    cyc = CapRead(18,17,1,1);
+    cyc = CapRead(23,24,1000,2);
     print (cyc)
     #time.sleep(100/1000)

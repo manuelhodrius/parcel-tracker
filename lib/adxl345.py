@@ -42,10 +42,10 @@ class ADXL345:
 
     address = None
 
-    def __init__(self, address = 0x53):        
+    def __init__(self, address = 0x53):
         self.address = address
         self.setBandwidthRate(BW_RATE_200HZ)
-        self.setRange(RANGE_8G)
+        self.setRange(RANGE_16G)
         self.enableMeasurement()
 
     def enableMeasurement(self):
@@ -59,19 +59,20 @@ class ADXL345:
         value = bus.read_byte_data(self.address, DATA_FORMAT)
 
         value &= ~0x0F;
-        value |= range_flag;  
+        value |= range_flag;
         value |= 0x08;
 
         bus.write_byte_data(self.address, DATA_FORMAT, value)
-    
+
     # returns the current reading from the sensor for each axis
     #
     # parameter gforce:
     #    False (default): result is returned in m/s^2
     #    True           : result is returned in gs
     def getAxes(self, gforce = False):
+    #def getAxes(self, gforce = True):
         bytes = bus.read_i2c_block_data(self.address, AXES_DATA, 6)
-        
+
         x = bytes[0] | (bytes[1] << 8)
         if(x & (1 << 16 - 1)):
             x = x - (1<<16)
