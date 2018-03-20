@@ -8,6 +8,7 @@
 # File handling ##
 filenamebase = "loggerdata"
 subfoldername = "loggerdata"
+pathbase = "/data"
 filebreak = 10000
 
 ## Thresholds for logging ##

@@ -33,8 +33,8 @@ old_millis = 0
 light = 0
 
 # create subfolder
-if not os.path.exists(subfoldername):
-    os.makedirs(subfoldername)
+if not os.path.exists((pathbase + "/" + subfoldername)):
+    os.makedirs((pathbase + "/" + subfoldername))
     print ("folder created")
 
 #for x in range (0,100):
@@ -69,7 +69,7 @@ while True:
             log = False
 
     # Logging. Only if log is True. 
-    if (log = True)
+    if (log == True):
         # update time to measure cycle time
         curr_millis = round((time.perf_counter()*1000),4)
 
@@ -89,7 +89,7 @@ while True:
         if (runningnumber % filebreak == 0):
             filenumber = filenumber + 1
             filedate = now.strftime("%Y-%m-%d")
-            filename_list = [subfoldername , "/" , filenamebase , "_" , filedate , "_" , str(filenumber) , ".csv"]
+            filename_list = [pathbase, "/", subfoldername , "/" , filenamebase , "_" , filedate , "_" , str(filenumber) , ".csv"]
             filename = ''.join(filename_list)
 
         # write to file + flash LED
