@@ -2,9 +2,6 @@
 #
 # Author: Manuel Hodrius, 2018
 
-# TODO
-# Import capsensor!
-
 from lib.adxl345 import ADXL345
 import time
 import datetime
@@ -12,6 +9,8 @@ import RPi.GPIO as GPIO
 import os
 from lib.bme280 import *
 import math
+
+from variables import *
 
 # LED
 GPIO.setmode(GPIO.BCM)
@@ -30,16 +29,10 @@ filenumber = 0
 prefcycle = 0
 old_millis = 0
 
-# options for files
-filenamebase = "loggerdata"
-subfoldername = "loggerdata"
-filebreak = 10000
-
 #for LED
 light = 0
 
-cycletime = 5
-
+# create subfolder
 if not os.path.exists(subfoldername):
     os.makedirs(subfoldername)
     print ("folder created")
@@ -47,11 +40,8 @@ if not os.path.exists(subfoldername):
 #for x in range (0,100):
 print ("Logging started ", datetime.datetime.now())
 
+# dummy value for first cycle
 vectormag_old = 1000
-
-axthres = 0.2
-dropthres = 0.4
-abuse = 3
 
 # loop forever
 while True:
@@ -65,10 +55,21 @@ while True:
     # activate if there is movement
     #axsum = axes['x'] + axes['y'] + axes['z']
 
-    # Calculate vector magnitude
+    # Calculate vector magnitude as geometric mean (we handle vectors (which have a direction) here!)
     vectormag = math.sqrt(pow(axes['x'],2) + pow(axes['y'],2) + pow(axes['z'],2))
-    if ((abs(vectormag - vectormag_old) > axthres) or (vectormag < dropthres) or (vectormag > abuse)):
 
+    # If alwayslog is set True in variables.py then logging always happenes. Check first, if true checking the vectromag is not necessary. 
+    if alwayslog == True:
+        log = True
+    else: 
+        # Check vectormag and verify that movement happened
+        if ((abs(vectormag - vectormag_old) > axthres) or (vectormag < dropthres) or (vectormag > abuse)):
+            log = True
+        else:
+            log = False
+
+    # Logging. Only if log is True. 
+    if (log = True)
         # update time to measure cycle time
         curr_millis = round((time.perf_counter()*1000),4)
 
