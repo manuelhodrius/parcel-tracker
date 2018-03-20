@@ -7,7 +7,7 @@ from variables import subfoldername, pathbase
 path = pathbase + "/" + subfoldername
 
 # new folder name
-#foldername_new = "o_" + subfoldername
+foldername_new = "o_" + subfoldername
 path_new = pathbase + "/" + "o_" + foldername_new
 
 if os.path.exists(path):
