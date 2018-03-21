@@ -35,7 +35,7 @@ adxl345 = ADXL345()
 
 #######################
 
-calfile = "res/cal.py"
+calfile = "/home/pi/shipping-logger/res/cal.py"
 
 ######################
 
